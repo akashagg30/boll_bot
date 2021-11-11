@@ -38,5 +38,6 @@ app = Flask(__name__)
 def home():
     print('called')
     return Telegram.send_text_to_all_static_chats()
-
-app.run(environ.get('PORT'))
+    
+if __name__ == '__main__':
+    app.run(environ.get('PORT'))
