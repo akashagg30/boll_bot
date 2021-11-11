@@ -1,10 +1,11 @@
 from boll import Boll, SymbolsWithBoll
 import requests
-import os
+from os import environ
+from flask import Flask
 # from config import BOT_TOKEN, CHAT_IDS
 
-bot_token = os.environ['BOT_TOKEN']
-chat_ids = os.environ['CHAT_IDS']
+bot_token = environ['BOT_TOKEN']
+chat_ids = environ['CHAT_IDS']
 
 class Telegram:
     @staticmethod
@@ -30,5 +31,11 @@ class Telegram:
             chat_ids = chat_ids.split(',')
         for chat_id in chat_ids:
             Telegram.telegram_bot_sendtext(msg, chat_id)
+        return msg
 
-Telegram.send_text_to_all_static_chats()
+@app.route('/')
+def home():
+    return Telegram.send_text_to_all_static_chats()
+
+app = Flask(__name__)
+app.run(environ.get('PORT'))
