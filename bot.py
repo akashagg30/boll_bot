@@ -1,9 +1,10 @@
 from boll import Boll, SymbolsWithBoll
 import requests
-from config import BOT_TOKEN, CHAT_IDS
+import os
+# from config import BOT_TOKEN, CHAT_IDS
 
-bot_token = BOT_TOKEN
-chat_ids = CHAT_IDS
+bot_token = os.environ['BOT_TOKEN']
+chat_ids = os.environ['CHAT_IDS']
 
 class Telegram:
     @staticmethod
@@ -23,7 +24,10 @@ class Telegram:
 
     @staticmethod
     def send_text_to_all_static_chats():
+        global chat_ids
         msg = SymbolsWithBoll().generate_msg()
+        if not isinstance(chat_ids, list):
+            chat_ids = chat_ids.split(',')
         for chat_id in chat_ids:
             Telegram.telegram_bot_sendtext(msg, chat_id)
 
