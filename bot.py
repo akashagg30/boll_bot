@@ -32,10 +32,10 @@ class Telegram:
         for chat_id in chat_ids:
             Telegram.telegram_bot_sendtext(msg, chat_id)
         return msg
+app = Flask(__name__)
 
 @app.route('/')
 def home():
     return Telegram.send_text_to_all_static_chats()
 
-app = Flask(__name__)
 app.run(environ.get('PORT'))
