@@ -80,20 +80,21 @@ class SymbolsWithBoll:
         self.get_price_hitory_of_all_symbols()
 
         for i, symbol in enumerate(self.symbols):
-            status = Boll(symbol, self.price_histories[i].json()).get_status()
+            price_history = self.price_histories[i].json()
+            status = Boll(symbol, price_history).get_status()
             if status != 0:
-                self.symbols_with_movements.append((symbol, status))
+                self.symbols_with_movements.append((symbol, status, price_history[-1][4]))
 
         return self.symbols_with_movements
 
     def generate_msg(self):
         flag = 0
         self.txt = ''
-        for symbol, status in sorted(self.get_status_of_symbols(),key= lambda data: data[1] ):
+        for symbol, status, current_price in sorted(self.get_status_of_symbols(),key= lambda data: data[1] ):
             if flag != status:
                 self.txt += 'Down ->\n' if status==-1 else ('' if status==0 else '\n\n')+'Up ->\n'
                 flag = status
-            self.txt += symbol+'\n'
+            self.txt += "{} {}\n".format(symbol, current_price)
         return self.txt
 
 
