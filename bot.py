@@ -26,7 +26,7 @@ class Telegram:
     @staticmethod
     def send_text_to_all_static_chats():
         global chat_ids
-        msg = SymbolsWithBoll().generate_msg()
+        msg = SymbolsWithBoll(interval='4h').generate_msg()
         if not isinstance(chat_ids, list):
             chat_ids = chat_ids.split(',')
         for chat_id in chat_ids:
