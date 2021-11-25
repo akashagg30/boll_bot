@@ -90,11 +90,11 @@ class SymbolsWithBoll:
     def generate_msg(self):
         flag = 0
         self.txt = ''
-        for symbol, status, current_price in sorted(self.get_status_of_symbols(),key= lambda data: data[1] ):
+        for symbol, status, current_price in sorted(self.get_status_of_symbols(),key= lambda data: (data[1], 1 if data[0].endswith('USDT') else 0)):
             if flag != status:
                 self.txt += 'Down ->\n' if status==-1 else ('' if status==0 else '\n\n')+'Up ->\n'
                 flag = status
-            self.txt += "{} {}\n".format(symbol, current_price)
+            self.txt += "{}\n".format(symbol)
         return self.txt
 
 
